@@ -13,22 +13,40 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/manufacturers")
 public class ManufacturerController {
+    /**
+     * The ManufacturerRepository used to interact with the underlying database for Manufacturer entities.
+     */
     @Autowired
     private ManufacturerRepository manufacturerRepository;
 
-    //read all
+    /**
+     * Get all manufacturers from the database.
+     *
+     * @return A list of all Manufacturer entities available in the database.
+     */
     @GetMapping
     public List<Manufacturer> getAllManufacturers(){
         return manufacturerRepository.findAll();
     }
 
-    //post
+    /**
+     * Create a new manufacturer and save it to the database.
+     *
+     * @param manufacturer The Manufacturer object to be created and saved.
+     * @return The newly created Manufacturer entity with its ID assigned.
+     */
     @PostMapping
     public Manufacturer createManufacturer(@RequestBody Manufacturer manufacturer){
         return manufacturerRepository.save(manufacturer);
     }
 
-    //read by ID
+    /**
+     * Retrieve a manufacturer from the database by its ID.
+     *
+     * @param id The ID of the manufacturer to be retrieved.
+     * @return ResponseEntity containing the Manufacturer entity if found, or 404 Not Found if the manufacturer does not exist.
+     * @throws ResourceNotFoundException if the manufacturer with the specified ID does not exist.
+     */
     @GetMapping("{id}")
     public ResponseEntity<Manufacturer> getManufacturerById(@PathVariable long id){
         Manufacturer manufacturer = manufacturerRepository.findById(id)
@@ -36,7 +54,14 @@ public class ManufacturerController {
          return ResponseEntity.ok(manufacturer);
     }
 
-    //update
+    /**
+     * Update an existing manufacturer's details in the database.
+     *
+     * @param id            The ID of the manufacturer to be updated.
+     * @param manufacturerProperties The Manufacturer object containing the updated properties.
+     * @return ResponseEntity containing the updated Manufacturer entity if found, or 404 Not Found if the manufacturer does not exist.
+     * @throws ResourceNotFoundException if the manufacturer with the specified ID does not exist.
+     */
     @PutMapping("{id}")
     public ResponseEntity<Manufacturer> updateManufacturer(@PathVariable long id, @RequestBody Manufacturer manufacturerProperties) {
         Manufacturer updateManufacturer = manufacturerRepository.findById(id)
@@ -52,7 +77,13 @@ public class ManufacturerController {
         return ResponseEntity.ok(updateManufacturer);
     }
 
-    //delete
+    /**
+     * Delete a manufacturer from the database by its ID.
+     *
+     * @param id The ID of the manufacturer to be deleted.
+     * @return ResponseEntity with status NO_CONTENT if the manufacturer is successfully deleted.
+     * @throws ResourceNotFoundException if the manufacturer with the specified ID does not exist.
+     */
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteManufacturer(@PathVariable long id){
         Manufacturer manufacturer = manufacturerRepository.findById(id)

@@ -1,0 +1,5 @@
+com.interview.app.rest
+com.interview.app.rest.controller
+com.interview.app.rest.exception
+com.interview.app.rest.model
+com.interview.app.rest.repository

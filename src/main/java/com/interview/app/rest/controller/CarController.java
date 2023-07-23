@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
-    public int number = 1;
     @Autowired
     private CarRepository carRepository;
     //read all

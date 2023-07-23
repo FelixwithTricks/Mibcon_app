@@ -12,29 +12,55 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
+    /**
+     * The CarRepository used to interact with the underlying database for Car entities.
+     */
     @Autowired
     private CarRepository carRepository;
-    //read all
+
+    /**
+     * Get all cars from the database.
+     *
+     * @return A list of all Car entities available in the database.
+     */
     @GetMapping
     public List<Car> GetAllCars(){
         return carRepository.findAll();
 
     }
 
-    //post
+    /**
+     * Create a new car and save it to the database.
+     *
+     * @param car The Car object to be created and saved.
+     * @return The newly created Car entity with its ID assigned.
+     */
     @PostMapping
     public Car CreateCar(@RequestBody Car car){
         return carRepository.save(car);
     }
 
-    //read by ID
+    /**
+     * Retrieve a car from the database by its ID.
+     *
+     * @param id The ID of the car to be retrieved.
+     * @return ResponseEntity containing the Car entity if found, or 404 Not Found if the car does not exist.
+     * @throws ResourceNotFoundException if the car with the specified ID does not exist.
+     */
     @GetMapping("{id}")
     public ResponseEntity<Car> GetCarById(@PathVariable long id){
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Car with id:" + id + "does not exist"));
         return ResponseEntity.ok(car);
     }
-    //update
+    /**
+     * Update an existing car's details in the database.
+     *
+     * @param id The ID of the car to be updated.
+     * @param carProperties The Car object containing the updated properties.
+     * @return ResponseEntity containing the updated Car entity if found, or 404 Not Found if the car does not exist.
+     * @throws ResourceNotFoundException if the car with the specified ID does not exist.
+     */
     @PutMapping("{id}")
     public ResponseEntity<Car> updateCar(@PathVariable long id, @RequestBody Car carProperties) {
         Car updateCar = carRepository.findById(id)
@@ -51,7 +77,13 @@ public class CarController {
         return ResponseEntity.ok(updateCar);
     }
 
-    //delete
+    /**
+     * Delete a car from the database by its ID.
+     *
+     * @param id The ID of the car to be deleted.
+     * @return ResponseEntity with status NO_CONTENT if the car is successfully deleted.
+     * @throws ResourceNotFoundException if the car with the specified ID does not exist.
+     */
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteCar(@PathVariable long id){
         Car car = carRepository.findById(id)
